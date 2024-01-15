@@ -1,0 +1,267 @@
+narrative,Jaccard,# Sentences,# Characters,# Tokens
+Napoleon: Early career,1.0,2.0,204.0,35.0
+Napoleon: Early career,0.74,4.0,475.0,84.0
+Napoleon: Early career,0.29,3.0,721.0,120.0
+Napoleon: Early career,0.1,4.0,395.0,80.0
+Napoleon: Early career,0.06,1.0,232.0,39.0
+Colombo: Geographical considerations,0.37,3.0,564.0,102.0
+Colombo: Geographical considerations,0.1,2.0,316.0,54.0
+Colombo: Geographical considerations,0.07,1.0,525.0,94.0
+Colombo: Geographical considerations,0.08,1.0,444.0,89.0
+Elizabeth II Death,1.0,2.0,282.0,49.0
+Elizabeth II Death,0.66,3.0,353.0,71.0
+Elizabeth II Death,0.39,2.0,138.0,29.0
+Elizabeth II Death,0.88,3.0,351.0,73.0
+Elizabeth II Death,0.67,3.0,358.0,65.0
+Elizabeth II Death,0.3,3.0,444.0,85.0
+NASA: Astrophysics missions,0.32,3.0,347.0,54.0
+NASA: Astrophysics missions,0.14,2.0,325.0,59.0
+NASA: Astrophysics missions,0.13,1.0,249.0,41.0
+NASA: Astrophysics missions,0.09,3.0,479.0,83.0
+NASA: Astrophysics missions,0.17,3.0,469.0,82.0
+NASA: Astrophysics missions,0.13,1.0,202.0,34.0
+NASA: Astrophysics missions,0.0,0.0,0.0,0.0
+Kilimanjaro: Geology and geography,0.63,3.0,315.0,67.0
+Kilimanjaro: Geology and geography,0.02,2.0,361.0,78.0
+Kilimanjaro: Geology and geography,0.09,2.0,303.0,62.0
+Kilimanjaro: Geology and geography,0.04,1.0,186.0,39.0
+Kilimanjaro: Geology and geography,0.06,2.0,344.0,68.0
+Kilimanjaro: Geology and geography,0.07,3.0,463.0,85.0
+Victor Frankestain narrative,0.54,4.0,423.0,79.0
+Victor Frankestain narrative,0.05,2.0,245.0,45.0
+Victor Frankestain narrative,0.06,2.0,301.0,55.0
+Victor Frankestain narrative,0.09,3.0,462.0,88.0
+Victor Frankestain narrative,0.08,2.0,253.0,50.0
+Victor Frankestain narrative,0.18,2.0,196.0,37.0
+Victor Frankestain narrative,0.12,1.0,126.0,22.0
+Pink Floyd: Preceding the band,0.85,3.0,346.0,64.0
+Pink Floyd: Preceding the band,0.71,3.0,329.0,58.0
+Pink Floyd: Preceding the band,1.0,2.0,353.0,68.0
+Pink Floyd: Preceding the band,0.52,1.0,173.0,34.0
+Pink Floyd: Preceding the band,0.8,4.0,613.0,120.0
+Pink Floyd: Preceding the band,1.0,1.0,148.0,32.0
+Spread of Modern English,0.65,4.0,414.0,70.0
+Spread of Modern English,0.1,1.0,289.0,44.0
+Spread of Modern English,0.14,1.0,292.0,51.0
+Spread of Modern English,0.1,2.0,267.0,45.0
+Spread of Modern English,0.12,1.0,136.0,23.0
+Spread of Modern English,0.08,2.0,366.0,60.0
+Spread of Modern English,0.07,2.0,257.0,58.0
+COVID-19 deaths,0.26,3.0,386.0,73.0
+COVID-19 deaths,0.02,6.0,653.0,111.0
+COVID-19 deaths,0.07,3.0,689.0,123.0
+COVID-19 deaths,0.07,2.0,363.0,66.0
+Alan Turing: Early life and education (family),0.67,3.0,433.0,87.0
+Alan Turing: Early life and education (family),0.45,2.0,313.0,59.0
+Alan Turing: Early life and education (family),0.41,1.0,92.0,19.0
+Alan Turing: Early life and education (family),1.0,2.0,385.0,81.0
+Alan Turing: Early life and education (family),0.33,1.0,120.0,24.0
+Alan Turing: Early life and education (family),0.47,3.0,413.0,80.0
+Alan Turing: Early life and education (family),0.5,2.0,194.0,37.0
+Halloween Costumes,0.5,2.0,284.0,47.0
+Halloween Costumes,0.03,6.0,564.0,124.0
+Halloween Costumes,0.07,1.0,214.0,40.0
+Halloween Costumes,0.05,2.0,403.0,82.0
+Halloween Costumes,0.11,2.0,517.0,87.0
+Dante: Education and poetry,0.3,3.0,616.0,114.0
+Dante: Education and poetry,0.12,5.0,793.0,147.0
+Dante: Education and poetry,0.05,2.0,174.0,30.0
+Dante: Education and poetry,0.04,2.0,391.0,67.0
+Dante: Education and poetry,0.12,1.0,130.0,26.0
+Mickey Mouse Debut (1928),0.73,2.0,314.0,66.0
+Mickey Mouse Debut (1928),0.12,5.0,506.0,104.0
+Mickey Mouse Debut (1928),0.07,1.0,179.0,32.0
+Mickey Mouse Debut (1928),0.15,5.0,560.0,101.0
+Mickey Mouse Debut (1928),0.08,3.0,375.0,65.0
+Rio de Janeiro Geography,0.49,3.0,504.0,113.0
+Rio de Janeiro Geography,0.06,2.0,394.0,79.0
+Rio de Janeiro Geography,0.04,2.0,426.0,86.0
+Rio de Janeiro Geography,0.07,2.0,590.0,114.0
+Game of Thrones,0.61,3.0,395.0,85.0
+Game of Thrones,0.04,4.0,679.0,124.0
+Game of Thrones,0.11,3.0,466.0,82.0
+Game of Thrones,0.05,2.0,330.0,61.0
+Game of Thrones,0.0,0.0,0.0,0.0
+Medici History – rise to power,1.0,3.0,225.0,45.0
+Medici History – rise to power,1.0,3.0,326.0,67.0
+Medici History – rise to power,1.0,3.0,357.0,61.0
+Medici History – rise to power,1.0,2.0,317.0,58.0
+Medici History – rise to power,1.0,3.0,306.0,60.0
+Medici History – rise to power,1.0,2.0,338.0,57.0
+Vesuvius,0.66,2.0,228.0,46.0
+Vesuvius,0.56,2.0,382.0,74.0
+Vesuvius,0.43,3.0,286.0,51.0
+Vesuvius,0.34,2.0,267.0,54.0
+Vesuvius,0.05,1.0,211.0,52.0
+Vesuvius,0.62,3.0,401.0,71.0
+The fellowship of the ring,0.6,5.0,533.0,107.0
+The fellowship of the ring,0.07,4.0,503.0,98.0
+The fellowship of the ring,0.08,2.0,252.0,50.0
+The fellowship of the ring,0.09,3.0,556.0,112.0
+The fellowship of the ring,0.09,3.0,232.0,45.0
+Mona Lisa (Description),0.36,5.0,534.0,109.0
+Mona Lisa (Description),0.06,3.0,677.0,120.0
+Mona Lisa (Description),0.12,3.0,442.0,82.0
+Mona Lisa (Description),0.11,2.0,402.0,75.0
+Sweeney Todd (plot),0.44,2.0,238.0,47.0
+Sweeney Todd (plot),0.09,3.0,428.0,83.0
+Sweeney Todd (plot),0.08,1.0,220.0,41.0
+Sweeney Todd (plot),0.06,3.0,409.0,75.0
+Sweeney Todd (plot),0.09,3.0,576.0,112.0
+Nintendo (2004–2009: Nintendo DS and Wii),1.0,2.0,334.0,58.0
+Nintendo (2004–2009: Nintendo DS and Wii),1.0,2.0,171.0,36.0
+Nintendo (2004–2009: Nintendo DS and Wii),1.0,1.0,71.0,14.0
+Nintendo (2004–2009: Nintendo DS and Wii),1.0,2.0,395.0,67.0
+Nintendo (2004–2009: Nintendo DS and Wii),0.57,4.0,643.0,113.0
+Nintendo (2004–2009: Nintendo DS and Wii),0.07,1.0,143.0,28.0
+Nintendo (2004–2009: Nintendo DS and Wii),0.04,2.0,192.0,36.0
+Nintendo (2004–2009: Nintendo DS and Wii),0.09,1.0,132.0,24.0
+Area 51 History,0.3,7.0,882.0,183.0
+Area 51 History,0.05,5.0,627.0,121.0
+Area 51 History,0.09,3.0,540.0,92.0
+World War (German offensive in Belgium and France),0.55,3.0,655.0,122.0
+World War (German offensive in Belgium and France),0.06,6.0,973.0,177.0
+World War (German offensive in Belgium and France),0.11,3.0,668.0,122.0
+World War (German offensive in Belgium and France),0.08,1.0,281.0,51.0
+World War (German offensive in Belgium and France),0.09,4.0,632.0,119.0
+World War (German offensive in Belgium and France),0.0,0.0,0.0,0.0
+Area 51 (Environmental lawsuit),0.31,7.0,1264.0,214.0
+Area 51 (Environmental lawsuit),0.08,6.0,1079.0,182.0
+Area 51 (Environmental lawsuit),0.12,4.0,539.0,91.0
+The Beatles (Song catalogue),0.41,3.0,541.0,107.0
+The Beatles (Song catalogue),0.1,2.0,256.0,48.0
+The Beatles (Song catalogue),0.09,6.0,855.0,165.0
+The Beatles (Song catalogue),0.08,1.0,109.0,21.0
+The Beatles (Song catalogue),0.0,0.0,1.0,0.0
+The Beatles (Song catalogue),0.06,2.0,196.0,37.0
+Dracula,0.15,5.0,535.0,101.0
+Dracula,0.05,5.0,520.0,89.0
+Dracula,0.05,3.0,353.0,61.0
+Dracula,0.11,2.0,222.0,39.0
+Dracula,0.05,3.0,434.0,80.0
+Internet (history),0.72,3.0,541.0,98.0
+Internet (history),0.06,5.0,694.0,126.0
+Internet (history),0.09,4.0,598.0,100.0
+Internet (history),0.1,2.0,363.0,62.0
+Super Mario (1996–2005: Introduction of 3D and open-ended exploration),0.74,3.0,493.0,94.0
+Super Mario (1996–2005: Introduction of 3D and open-ended exploration),0.61,2.0,215.0,41.0
+Super Mario (1996–2005: Introduction of 3D and open-ended exploration),0.41,9.0,977.0,189.0
+Super Mario (1996–2005: Introduction of 3D and open-ended exploration),0.15,1.0,206.0,42.0
+Twitch History (Founding and initial growth (2007–2013)),0.68,2.0,240.0,44.0
+Twitch History (Founding and initial growth (2007–2013)),0.54,3.0,251.0,50.0
+Twitch History (Founding and initial growth (2007–2013)),0.3,5.0,598.0,114.0
+Twitch History (Founding and initial growth (2007–2013)),0.1,3.0,539.0,103.0
+Twitch History (Founding and initial growth (2007–2013)),0.07,2.0,219.0,43.0
+Twitch History (Founding and initial growth (2007–2013)),0.09,2.0,171.0,32.0
+Stradivarius Construction,0.37,3.0,383.0,75.0
+Stradivarius Construction,0.08,2.0,267.0,47.0
+Stradivarius Construction,0.07,7.0,755.0,137.0
+Stradivarius Construction,0.12,5.0,614.0,115.0
+W. Allen Early life and education,0.17,8.0,657.0,129.0
+W. Allen Early life and education,0.04,6.0,610.0,117.0
+W. Allen Early life and education,0.03,1.0,114.0,26.0
+W. Allen Early life and education,0.06,1.0,94.0,20.0
+W. Allen Early life and education,0.08,3.0,199.0,41.0
+W. Allen Early life and education,0.04,3.0,312.0,59.0
+"François-René  (Biography; America, France, London)",0.2,5.0,676.0,129.0
+"François-René  (Biography; America, France, London)",0.08,4.0,707.0,133.0
+"François-René  (Biography; America, France, London)",0.02,5.0,705.0,137.0
+Gautier (Life and time),0.62,2.0,317.0,53.0
+Gautier (Life and time),0.11,2.0,259.0,47.0
+Gautier (Life and time),0.09,4.0,434.0,87.0
+Gautier (Life and time),0.07,4.0,749.0,151.0
+Gautier (Life and time),0.03,1.0,259.0,49.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.52,2.0,244.0,49.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.09,2.0,243.0,43.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.03,2.0,268.0,52.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.36,3.0,401.0,81.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.58,2.0,393.0,75.0
+"Rambles in Germany and Italy, Travelling and writing (1840)",0.42,5.0,511.0,107.0
+Le Corricolo (The trip to Italy),0.81,1.0,210.0,43.0
+Le Corricolo (The trip to Italy),0.56,4.0,503.0,103.0
+Le Corricolo (The trip to Italy),0.1,4.0,628.0,129.0
+Le Corricolo (The trip to Italy),0.11,1.0,240.0,47.0
+Le Corricolo (The trip to Italy),0.12,2.0,305.0,64.0
+Corinne (plot),0.66,2.0,256.0,55.0
+Corinne (plot),0.14,6.0,827.0,166.0
+Corinne (plot),0.08,2.0,321.0,62.0
+Corinne (plot),0.08,3.0,197.0,40.0
+Corinne (plot),0.17,3.0,364.0,73.0
+Stendhal (Life),0.28,5.0,740.0,142.0
+Stendhal (Life),0.09,2.0,246.0,46.0
+Stendhal (Life),0.08,4.0,491.0,89.0
+Stendhal (Life),0.07,3.0,321.0,60.0
+Stendhal (Life),0.07,1.0,85.0,18.0
+Stendhal (Life),0.12,2.0,168.0,33.0
+"Henry James (Late years, 1898–1916)",0.06,2.0,260.0,48.0
+"Henry James (Late years, 1898–1916)",0.39,2.0,229.0,49.0
+"Henry James (Late years, 1898–1916)",0.07,3.0,409.0,86.0
+"Henry James (Late years, 1898–1916)",0.07,3.0,254.0,57.0
+"Henry James (Late years, 1898–1916)",0.04,4.0,393.0,77.0
+Joachim du Bellay (Biography),0.54,3.0,542.0,114.0
+Joachim du Bellay (Biography),0.15,2.0,341.0,67.0
+Joachim du Bellay (Biography),0.37,2.0,453.0,91.0
+Joachim du Bellay (Biography),0.58,1.0,273.0,49.0
+Joachim du Bellay (Biography),1.0,1.0,247.0,47.0
+Julien Gracq (Life),1.0,3.0,266.0,53.0
+Julien Gracq (Life),1.0,2.0,186.0,41.0
+Julien Gracq (Life),0.36,3.0,395.0,72.0
+Julien Gracq (Life),0.1,2.0,310.0,56.0
+Julien Gracq (Life),0.09,2.0,292.0,62.0
+Julien Gracq (Life),0.06,3.0,270.0,52.0
+Julien Gracq (Life),0.09,1.0,118.0,28.0
+Jazz,0.45,4.0,486.0,89.0
+Jazz,0.09,2.0,297.0,54.0
+Jazz,0.09,2.0,287.0,55.0
+Jazz,0.09,2.0,305.0,55.0
+Jazz,0.1,2.0,389.0,73.0
+Jazz,0.09,1.0,172.0,29.0
+Jazz,0.09,2.0,214.0,39.0
+AI (Knowledge representation),1.0,2.0,386.0,56.0
+AI (Knowledge representation),0.95,3.0,640.0,122.0
+AI (Knowledge representation),0.39,7.0,984.0,176.0
+Cyclone Michaung Meteorological history,0.81,2.0,295.0,52.0
+Cyclone Michaung Meteorological history,0.29,3.0,245.0,44.0
+Cyclone Michaung Meteorological history,0.02,1.0,229.0,38.0
+Cyclone Michaung Meteorological history,0.74,2.0,325.0,61.0
+Cyclone Michaung Meteorological history,1.0,2.0,225.0,41.0
+Cyclone Michaung Meteorological history,1.0,2.0,270.0,49.0
+Cyclone Michaung Meteorological history,0.66,2.0,204.0,38.0
+Steve Vai (Early music career (1978–1986)),0.54,4.0,684.0,141.0
+Steve Vai (Early music career (1978–1986)),0.13,1.0,189.0,40.0
+Steve Vai (Early music career (1978–1986)),0.12,2.0,302.0,61.0
+Steve Vai (Early music career (1978–1986)),0.18,3.0,260.0,48.0
+Steve Vai (Early music career (1978–1986)),0.05,3.0,574.0,107.0
+Roman Empire (Geography and demography),0.12,4.0,656.0,112.0
+Roman Empire (Geography and demography),0.07,4.0,614.0,108.0
+Roman Empire (Geography and demography),0.06,3.0,219.0,40.0
+Apollo 11,0.23,3.0,506.0,100.0
+Apollo 11,0.17,2.0,447.0,90.0
+Apollo 11,0.08,1.0,400.0,83.0
+Apollo 11,0.14,4.0,531.0,99.0
+Agruculture: Revolution,0.38,2.0,330.0,56.0
+Agruculture: Revolution,0.09,1.0,276.0,48.0
+Agruculture: Revolution,0.11,1.0,268.0,57.0
+Agruculture: Revolution,0.04,3.0,597.0,95.0
+Agruculture: Revolution,0.05,2.0,332.0,53.0
+Medici: Rise to power,0.43,2.0,250.0,52.0
+Medici: Rise to power,0.05,3.0,357.0,61.0
+Medici: Rise to power,0.07,4.0,522.0,98.0
+Medici: Rise to power,0.11,2.0,359.0,64.0
+Medici: Rise to power,0.03,2.0,436.0,76.0
+Console games: Third and fourth generations,1.0,1.0,268.0,53.0
+Console games: Third and fourth generations,0.66,4.0,625.0,106.0
+Console games: Third and fourth generations,0.12,2.0,343.0,54.0
+Console games: Third and fourth generations,0.07,3.0,517.0,92.0
+Console games: Third and fourth generations,0.08,2.0,262.0,45.0
+Cotton Early history,0.66,2.0,413.0,80.0
+Cotton Early history,0.06,4.0,472.0,96.0
+Cotton Early history,0.16,3.0,480.0,95.0
+Cotton Early history,0.09,2.0,311.0,63.0
+Milk (industrialization),0.64,5.0,698.0,125.0
+Milk (industrialization),0.11,7.0,786.0,152.0
+Milk (industrialization),0.08,5.0,467.0,92.0
+Chocolate (Mesoamerican usage),0.44,4.0,618.0,118.0
+Chocolate (Mesoamerican usage),0.17,3.0,461.0,86.0
+Chocolate (Mesoamerican usage),0.12,3.0,595.0,113.0
+Chocolate (Mesoamerican usage),0.17,2.0,287.0,57.0
