@@ -5,7 +5,6 @@ import json
 import statistics
 import nltk
 import pandas as pd
-from collections import Counter
 
 if __name__ == '__main__':
 
@@ -16,7 +15,8 @@ if __name__ == '__main__':
         for line in lines:
             matcher = SequenceMatcher(None, line, str2, autojunk=False)
             match_ratio = matcher.ratio()
-            if len(lines) > 20:  # the more the text is fragmented into paragraphs, the lower the match with the individual paragraphs
+            if len(lines) > 20:  # the more the text is fragmented into paragraphs, the lower the match with the
+                # individual paragraphs
                 threshold = 0.06
             else:
                 threshold = 0.09
@@ -75,8 +75,8 @@ if __name__ == '__main__':
 
 
     def count_sentences(text):
-        sentences = nltk.sent_tokenize(text)
-        return len(sentences)
+        sent = nltk.sent_tokenize(text)
+        return len(sent)
 
 
     def print_rows_and_paragraphs(str1, str2):
@@ -84,12 +84,13 @@ if __name__ == '__main__':
         lines = str1.split('\n')
         phrases = nltk.sent_tokenize(str2)
         paragraphs = 0
-        sentences = []
+        sent_list = []
         cleaned_text = []
         for line in lines:
             matcher = SequenceMatcher(None, line, str2, autojunk=False)
             match_ratio = matcher.ratio()
-            if len(lines) > 20:  # the more the text is fragmented into paragraphs, the lower the match with the individual paragraphs
+            if len(lines) > 20:  # the more the text is fragmented into paragraphs, the lower the match with the
+                # individual paragraphs
                 threshold = 0.06
             else:
                 threshold = 0.09
@@ -113,20 +114,20 @@ if __name__ == '__main__':
         lines = text_cleaned.split('\n')
         for line in lines:
             if line != "":
-                sentences.append(count_sentences(line))
+                sent_list.append(count_sentences(line))
                 paragraphs += 1
         mean_sentences = 0
-        for elem in sentences:
-            index = sentences.index(elem)
-            mean_sentences += sentences[index]
-        if len(sentences) == 0:
+        for sent in sent_list:
+            index = sent_list.index(sent)
+            mean_sentences += sent_list[index]
+        if len(sent_list) == 0:
             mean_sentences = 0
         else:
-            mean_sentences /= len(sentences)
+            mean_sentences /= len(sent_list)
         len_chars = len(text_cleaned)
-        tokens = nltk.word_tokenize(text_cleaned)
-        num_tokens = len(tokens)
-        return [paragraphs, sentences, mean_sentences, len_chars, num_tokens]
+        tok = nltk.word_tokenize(text_cleaned)
+        num_tokens = len(tok)
+        return [paragraphs, sent_list, mean_sentences, len_chars, num_tokens]
 
 
     def print_differences(str1, str2):
@@ -155,11 +156,83 @@ if __name__ == '__main__':
         else:
             print("All words in original text are also present in \'output text\'")
 
+    def save_df(dataframe, is_narra):
+        df_name = "results-" + suffix_csv + ".csv"
+        new_row_names = list(narratives_dict.keys())
+        dt = dataframe.rename(index=dict(zip(dataframe.index, new_row_names)))
+        dt.to_csv(df_name)
+        if os.path.exists(df_name):
+            print("\n", df_name, "saved successfully.\n")
+        else:
+            print("\n", df_name, "not saved. Operation failed.\n")
+        if is_narra:
+            df_narra_name = "results-narra-" + suffix_csv + ".csv"
+            df_narra.to_csv(df_narra_name)
+            if os.path.exists(df_narra_name):
+                print("\n", df_narra_name, "saved successfully.\n")
+            else:
+                print("\n", df_narra_name, "not saved. Operation failed.\n")
 
-    def j_sim(str1, str2):
-        similarity = jaccard_similarity(str1, str2)
-        return similarity
+    def build_df(is_narra):
+        global jac_list, par_list, prompt_list, sentences_list, chars_list, tokens_list, df, df_narra
 
+        # this is for all outputs calculation
+
+        # sum_val = 0
+        # for val in jac_list:
+        #    sum_val += val
+        # mean_jac = float(sum_val / len(jac_list))
+
+        sum_val = 0
+        for val in best_jac_list:
+            sum_val += val
+        mean_best_jac = float(sum_val / len(best_jac_list))
+        sum_val = 0
+        for val in best_par_list:
+            sum_val += val
+        mean_best_par = float(sum_val / len(best_par_list))
+
+        # also this
+
+        # sum_val = 0
+        # for val in par_list:
+        #    sum_val += val
+        # mean_par = float(sum_val / len(par_list))
+
+        sum_val = 0
+        for val in sentences_list:
+            sum_val += val
+        mean_sentence = float(sum_val / len(sentences_list))
+        sum_val = 0
+        for val in chars_list:
+            sum_val += val
+        mean_char = float(sum_val / len(chars_list))
+        sum_val = 0
+        for val in tokens_list:
+            sum_val += val
+        mean_token = float(sum_val / len(tokens_list))
+        sum_val = 0
+        for val in out_list:
+            sum_val += val
+        mean_out = float(sum_val / len(out_list))
+        df_line = pd.DataFrame(
+            {"Avg Jaccard": mean_best_jac, "Avg paragraphs": mean_best_par,
+             "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
+             "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
+        prompt_list = []
+        jac_list = []
+        par_list = []
+        sentences_list = []
+        chars_list = []
+        tokens_list = []
+        df = pd.concat([df, df_line]).reset_index(drop=True)
+        if is_narra:
+            df_narra_line = pd.DataFrame(
+                {"narrative": available_narratives, "Jaccard": jac_narra, "# Paragraphs": par_narra,
+                 "Avg sentences": sent_narra, "# Characters": char_narra,
+                 "# Tokens": tokens_narra}
+            )
+            df_narra = pd.concat([df_narra, df_narra_line]).reset_index(drop=True)
 
     def analysis(input_dict):
         global df
@@ -177,11 +250,10 @@ if __name__ == '__main__':
             json_result = create_json_from_text(input_dict[out])
             print("Reading paragraphs from JSON result:\n")
             jac = print_lines_from_json(json_result, narratives[narrative_titles.index(narrative_to_analyse)])
-            paragraphs, sentences, mean_sentences, chars, len_tokens = print_rows_and_paragraphs(input_dict[out],
-                                                                                                 narratives[
-                                                                                                     narrative_titles.index(
-                                                                                                         narrative_to_analyse)])
-            print("\nParagraphs: ", paragraphs, "\nSentences: ", sentences, "\nAvg sentences per paragraph: ",
+            paragraphs, sentences_seq, mean_sentences, chars, len_tokens = print_rows_and_paragraphs(
+                input_dict[out], narratives[narrative_titles.index(narrative_to_analyse)]
+            )
+            print("\nParagraphs: ", paragraphs, "\nSentences: ", sentences_seq, "\nAvg sentences per paragraph: ",
                   round(mean_sentences, 1),
                   "\n# Characters: ", chars, "\n# Tokens: ", len_tokens)
 
@@ -206,9 +278,9 @@ if __name__ == '__main__':
         json_result = create_json_from_text(result_tok)
         print("Reading paragraphs from JSON result:\n")
         jac = print_lines_from_json(json_result, narratives[narrative_titles.index(narrative_to_analyse)])
-        paragraphs, sentences, mean_sentences, chars, len_tokens = print_rows_and_paragraphs(result_tok, narratives[
+        paragraphs, sentences_seq, mean_sentences, chars, len_tokens = print_rows_and_paragraphs(result_tok, narratives[
             narrative_titles.index(narrative_to_analyse)])
-        print("\nParagraphs: ", paragraphs, "\nSentences: ", sentences, "\nAvg sentences per paragraph: ",
+        print("\nParagraphs: ", paragraphs, "\nSentences: ", sentences_seq, "\nAvg sentences per paragraph: ",
               round(mean_sentences, 1),
               "\n# Characters: ", chars, "\n# Tokens: ", len_tokens)
         return [jac, paragraphs, mean_sentences, chars, len_tokens]
@@ -221,11 +293,20 @@ if __name__ == '__main__':
     # Set suffixes
     suffix = input("Enter suffix of the JSON files to upload: ")
     suffix_csv = input("Enter suffix of the CSV file to save: ")
+    narra = input("Do you want also a complete narratives dataframe? (y/n): ")
     narratives_dict_output_filename = "narratives_dict_output-" + suffix + ".json"
     times_dict_filename = "times_dict-" + suffix + ".json"
     metadata_filename = "metadata-" + suffix + ".json"
     final_dict_filename = "final_dict-" + suffix + ".json"
     best_prompt_filename = "best_prompt-" + suffix + ".json"
+
+    # Transform input 'narra' from string to boolean
+    while narra.lower() != 'y' and narra.lower() != 'n':
+        narra = input("Please insert a correct value (y/n): ")
+    if narra.lower() == 'y':
+        narra = True
+    elif narra.lower() == 'n':
+        narra = False
 
     # Loading files
     narratives_dict = load_dict_from_file(narratives_dict_output_filename)
@@ -253,17 +334,17 @@ if __name__ == '__main__':
     for key in times_dict.keys():
         print(key, "--> ", times_dict[key], "\n")
         mean = 0
-        sum = 0
+        sum_times = 0
         count = 0
         std_values = []
         for model in times_dict[key]:
             for time in times_dict[key][model]:
                 print(times_dict[key][model][time])
-                sum += times_dict[key][model][time]
+                sum_times += times_dict[key][model][time]
                 count += 1
                 std_values.append(times_dict[key][model][time])
                 sum_all += times_dict[key][model][time]
-            mean = float(sum / count)
+            mean = float(sum_times / count)
 
         mean_times.append(mean)
         if len(std_values) > 1:
@@ -298,10 +379,8 @@ if __name__ == '__main__':
     sent_narra = []
     tokens_narra = []
     char_narra = []
-    first_prompt = "Write the narrative that I give you as input splitted into events writing the same exact sentences as they are written in the narrative without deleting, changing or adding any word."
-    second_prompt = "Divide the narrative I will give you into events. Then, for each event, attach the exact sentences to the event as they are written in the story. An event is a change of state, indicating the occurrence of something at a specific time and place and involving one or more participants."
     df = pd.DataFrame(
-        {"prompt": [], "Avg Jaccard": [], "Avg paragraphs": [], "Avg sentences per p": [], "Avg characters": [],
+        {"Avg Jaccard": [], "Avg paragraphs": [], "Avg sentences per p": [], "Avg characters": [],
          "Avg tokens": [], "Avg outputs": []})
     df_narra = pd.DataFrame(
         {"narrative": [], "Jaccard": [], "# Paragraphs": [], "Avg sentences": [], "# Characters": [], "# Tokens": []}
@@ -325,38 +404,17 @@ if __name__ == '__main__':
         if len(narratives_dict.keys()) > 1:
             model_to_analyse = input("Insert a model to analyze: ")
             if model_to_analyse == 'exit':
-                df_name = "results-" + suffix_csv + ".csv"
-                new_row_names = list(narratives_dict.keys())
-                df = df.rename(index=dict(zip(df.index, new_row_names)))
-                df.to_csv(df_name)
-                if os.path.exists(df_name):
-                    print("\n", df_name, "saved successfully.\n")
-                else:
-                    print("\n", df_name, "not saved. Operation failed.\n")
+                save_df(df, narra)
                 break
             program_break = False
             while model_to_analyse not in list(narratives_dict.keys()):
                 model_to_analyse = input("Inserted model not present in the list.\nInsert a model to analyze: ")
                 if model_to_analyse == 'exit':
-                    df_name = "results-" + suffix_csv + ".csv"
-                    new_row_names = list(narratives_dict.keys())
-                    df = df.rename(index=dict(zip(df.index, new_row_names)))
-                    df.to_csv(df_name)
-                    if os.path.exists(df_name):
-                        print("\n", df_name, "saved successfully.\n")
-                    else:
-                        print("\n", df_name, "not saved. Operation failed.\n")
+                    save_df(df, narra)
                     program_break = True
                     break
             if program_break:
-                df_name = "results-" + suffix_csv + ".csv"
-                new_row_names = list(narratives_dict.keys())
-                df = df.rename(index=dict(zip(df.index, new_row_names)))
-                df.to_csv(df_name)
-                if os.path.exists(df_name):
-                    print("\n", df_name, "saved successfully.\n")
-                else:
-                    print("\n", df_name, "not saved. Operation failed.\n")
+                save_df(df, narra)
                 break
         else:
             model_to_analyse = list(narratives_dict)[0]
@@ -365,20 +423,7 @@ if __name__ == '__main__':
         if len(narratives_dict[model_to_analyse].keys()) > 1:
             narrative_to_analyse = input("Insert a narrative to analyze: ")
             if narrative_to_analyse == 'exit':
-                df_name = "results-" + suffix_csv + ".csv"
-                df_narra_name = "results-narra-" + suffix_csv + ".csv"
-                new_row_names = list(narratives_dict.keys())
-                df = df.rename(index=dict(zip(df.index, new_row_names)))
-                df.to_csv(df_name)
-                df_narra.to_csv(df_narra_name)
-                if os.path.exists(df_name):
-                    print("\n", df_name, "saved successfully.\n")
-                else:
-                    print("\n", df_name, "not saved. Operation failed.\n")
-                if os.path.exists(df_narra_name):
-                    print("\n", df_narra_name, "saved successfully.\n")
-                else:
-                    print("\n", df_narra_name, "not saved. Operation failed.\n")
+                save_df(df, narra)
                 break
             program_break = False
             while narrative_to_analyse not in available_narratives:
@@ -387,62 +432,11 @@ if __name__ == '__main__':
                 narrative_to_analyse = input(
                     "Inserted narrative not present in the list.\nInsert a narrative to analyse: ")
                 if narrative_to_analyse == 'exit':
-                    sum_val = 0
-                    counter = Counter(prompt_list)
-                    pmt = counter.most_common(1)[0][0]
-                    for val in jac_list:
-                        sum_val += val
-                    mean_jac = float(sum_val / len(jac_list))
-                    sum_val = 0
-                    for val in best_jac_list:
-                        sum_val += val
-                    mean_best_jac = float(sum_val / len(best_jac_list))
-                    sum_val = 0
-                    for val in best_par_list:
-                        sum_val += val
-                    mean_best_par = float(sum_val / len(best_par_list))
-                    sum_val = 0
-                    for val in par_list:
-                        sum_val += val
-                    mean_par = float(sum_val / len(par_list))
-                    sum_val = 0
-                    for val in sentences_list:
-                        sum_val += val
-                    mean_sentence = float(sum_val / len(sentences_list))
-                    sum_val = 0
-                    for val in chars_list:
-                        sum_val += val
-                    mean_char = float(sum_val / len(chars_list))
-                    sum_val = 0
-                    for val in tokens_list:
-                        sum_val += val
-                    mean_token = float(sum_val / len(tokens_list))
-                    sum_val = 0
-                    for val in out_list:
-                        sum_val += val
-                    mean_out = float(sum_val / len(out_list))
-                    df_line = pd.DataFrame(
-                        {"prompt": pmt, "Avg Jaccard": mean_best_jac, "Avg paragraphs": mean_best_par,
-                         "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
-                         "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
-                    prompt_list = []
-                    jac_list = []
-                    par_list = []
-                    sentences_list = []
-                    chars_list = []
-                    tokens_list = []
-                    df = pd.concat([df, df_line]).reset_index(drop=True)
+                    build_df(narra)
                     program_break = True
                     break
             if program_break:
-                df_name = "results-" + suffix_csv + ".csv"
-                new_row_names = list(narratives_dict.keys())
-                df = df.rename(index=dict(zip(df.index, new_row_names)))
-                df.to_csv(df_name)
-                if os.path.exists(df_name):
-                    print("\n", df_name, "saved successfully.\n")
-                else:
-                    print("\n", df_name, "not saved. Operation failed.\n")
+                save_df(df, narra)
                 break
         else:
             narrative_to_analyse = list(narratives_dict[model_to_analyse])[0]
@@ -469,10 +463,6 @@ if __name__ == '__main__':
                         sentences = s
                         characters = c
                         tokens = t
-                    if prompt == 0:  # support only two prompts
-                        prompt_list.append(first_prompt)
-                    else:
-                        prompt_list.append(second_prompt)
                 jac_narra.append(jaccard)
                 par_narra.append(n_par)
                 sent_narra.append(sentences)
@@ -481,56 +471,7 @@ if __name__ == '__main__':
                 best_jac_list.append(jaccard)
                 best_par_list.append(n_par)
                 print("The best prompt is: ", best_prompt[model_to_analyse][narrative_to_analyse])
-            sum_val = 0
-            counter = Counter(prompt_list)
-            pmt = counter.most_common(1)[0][0]
-            for val in jac_list:
-                sum_val += val
-            mean_jac = float(sum_val / len(jac_list))
-            sum_val = 0
-            for val in best_jac_list:
-                sum_val += val
-            mean_best_jac = float(sum_val / len(best_jac_list))
-            sum_val = 0
-            for val in best_par_list:
-                sum_val += val
-            mean_best_par = float(sum_val / len(best_par_list))
-            sum_val = 0
-            for val in par_list:
-                sum_val += val
-            mean_par = float(sum_val / len(par_list))
-            sum_val = 0
-            for val in sentences_list:
-                sum_val += val
-            mean_sentence = float(sum_val / len(sentences_list))
-            sum_val = 0
-            for val in chars_list:
-                sum_val += val
-            mean_char = float(sum_val / len(chars_list))
-            sum_val = 0
-            for val in tokens_list:
-                sum_val += val
-            mean_token = float(sum_val / len(tokens_list))
-            sum_val = 0
-            for val in out_list:
-                sum_val += val
-            mean_out = float(sum_val / len(out_list))
-            df_line = pd.DataFrame({"prompt": pmt, "Avg Jaccard": mean_best_jac, "Avg paragraphs": mean_best_par,
-                                    "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
-                                    "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
-            df_narra_line = pd.DataFrame(
-                {"narrative": available_narratives, "Jaccard": jac_narra, "# Paragraphs": par_narra,
-                 "Avg sentences": sent_narra, "# Characters": char_narra,
-                 "# Tokens": tokens_narra}
-            )
-            prompt_list = []
-            jac_list = []
-            par_list = []
-            sentences_list = []
-            chars_list = []
-            tokens_list = []
-            df = pd.concat([df, df_line]).reset_index(drop=True)
-            df_narra = pd.concat([df_narra, df_narra_line]).reset_index(drop=True)
+            build_df(narra)
 
         else:
             for prompt in narratives_dict[model_to_analyse][narrative_to_analyse]:
@@ -538,25 +479,8 @@ if __name__ == '__main__':
                 analysis(dict_to_analyse)
                 dict_to_analyse = final_dict[model_to_analyse][narrative_to_analyse]
                 analysis_best(dict_to_analyse)
-                if prompt == 0:  # support only two prompts
-                    prompt_list.append(first_prompt)
-                else:
-                    prompt_list.append(second_prompt)
             print("The best prompt is: ", best_prompt[model_to_analyse][narrative_to_analyse])
 
         if break_while and break_while2:
-            df_name = "results-" + suffix_csv + ".csv"
-            df_narra_name = "results-narra-" + suffix_csv + ".csv"
-            new_row_names = list(narratives_dict.keys())
-            df = df.rename(index=dict(zip(df.index, new_row_names)))
-            df.to_csv(df_name)
-            df_narra.to_csv(df_narra_name)
-            if os.path.exists(df_name):
-                print("\n", df_name, "saved successfully.\n")
-            else:
-                print("\n", df_name, "not saved. Operation failed.\n")
-            if os.path.exists(df_narra_name):
-                print("\n", df_narra_name, "saved successfully.\n")
-            else:
-                print("\n", df_narra_name, "not saved. Operation failed.\n")
+            save_df(df, narra)
             break
