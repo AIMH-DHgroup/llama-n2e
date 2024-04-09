@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
 
     def print_lines_from_json(json_string, str2):
-        json_data = json.loads(json_string)  # Decode the JSON object
+        json_data = json.loads(json_string)
         lines = json_data['paragraphs']  # Get the list of lines from the JSON object
         str1 = '\n'.join(lines)
         similarity = jaccard_similarity(str1, str2)
@@ -173,31 +173,8 @@ if __name__ == '__main__':
             else:
                 print("\n", df_narra_name, "not saved. Operation failed.\n")
 
-    def build_df(is_narra):
+    def build_df(is_narra, is_best):
         global jac_list, par_list, prompt_list, sentences_list, chars_list, tokens_list, df, df_narra
-
-        # this is for all outputs calculation
-
-        # sum_val = 0
-        # for val in jac_list:
-        #    sum_val += val
-        # mean_jac = float(sum_val / len(jac_list))
-
-        sum_val = 0
-        for val in best_jac_list:
-            sum_val += val
-        mean_best_jac = float(sum_val / len(best_jac_list))
-        sum_val = 0
-        for val in best_par_list:
-            sum_val += val
-        mean_best_par = float(sum_val / len(best_par_list))
-
-        # also this
-
-        # sum_val = 0
-        # for val in par_list:
-        #    sum_val += val
-        # mean_par = float(sum_val / len(par_list))
 
         sum_val = 0
         for val in sentences_list:
@@ -215,10 +192,36 @@ if __name__ == '__main__':
         for val in out_list:
             sum_val += val
         mean_out = float(sum_val / len(out_list))
-        df_line = pd.DataFrame(
-            {"Avg Jaccard": mean_best_jac, "Avg paragraphs": mean_best_par,
-             "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
-             "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
+        if is_best:
+            # this is for best outputs calculation
+
+            sum_val = 0
+            for val in best_jac_list:
+                sum_val += val
+            mean_best_jac = float(sum_val / len(best_jac_list))
+            sum_val = 0
+            for val in best_par_list:
+                sum_val += val
+            mean_best_par = float(sum_val / len(best_par_list))
+            df_line = pd.DataFrame(
+                {"Avg Jaccard": mean_best_jac, "Avg paragraphs": mean_best_par,
+                 "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
+                 "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
+        else:
+            # this is for all outputs calculation
+
+            sum_val = 0
+            for val in jac_list:
+                sum_val += val
+            mean_jac = float(sum_val / len(jac_list))
+            sum_val = 0
+            for val in par_list:
+                sum_val += val
+            mean_par = float(sum_val / len(par_list))
+            df_line = pd.DataFrame(
+                {"Avg Jaccard": mean_jac, "Avg paragraphs": mean_par,
+                 "Avg sentences per p": mean_sentence, "Avg characters": mean_char,
+                 "Avg tokens": mean_token, "Avg outputs": mean_out}, index=[3])
         prompt_list = []
         jac_list = []
         par_list = []
@@ -234,7 +237,7 @@ if __name__ == '__main__':
             )
             df_narra = pd.concat([df_narra, df_narra_line]).reset_index(drop=True)
 
-    def analysis(input_dict):
+    def analysis(input_dict, to_clean):
         global df
         print("Total text outputs \"" + narrative_to_analyse + "\" with " + str(iterations) + " iterations: " + str(
             len(input_dict)))
@@ -243,15 +246,21 @@ if __name__ == '__main__':
         for out in input_dict:
             print("Output # " + str(out), "\n")
             print(input_dict[out], "\n\n")
+            if to_clean:
+                result_tok = remove_tokens_to_match(
+                    input_dict[out], narratives[narrative_titles.index(narrative_to_analyse)]
+                )
+            else:
+                result_tok = input_dict[out]
             print("\nDifferences in normal paragraph division with original text:\n\n")
             print(print_differences(input_dict[out], narratives[narrative_titles.index(narrative_to_analyse)]),
                   "\n")
 
-            json_result = create_json_from_text(input_dict[out])
+            json_result = create_json_from_text(result_tok)
             print("Reading paragraphs from JSON result:\n")
             jac = print_lines_from_json(json_result, narratives[narrative_titles.index(narrative_to_analyse)])
             paragraphs, sentences_seq, mean_sentences, chars, len_tokens = print_rows_and_paragraphs(
-                input_dict[out], narratives[narrative_titles.index(narrative_to_analyse)]
+                result_tok, narratives[narrative_titles.index(narrative_to_analyse)]
             )
             print("\nParagraphs: ", paragraphs, "\nSentences: ", sentences_seq, "\nAvg sentences per paragraph: ",
                   round(mean_sentences, 1),
@@ -266,11 +275,14 @@ if __name__ == '__main__':
         out_list.append(out_len)
 
 
-    def analysis_best(input_dict):
+    def analysis_best(input_dict, to_clean):
         global df
         print("Best output of ", narrative_to_analyse, "\n")
         print(input_dict, "\n\n")
-        result_tok = remove_tokens_to_match(input_dict, narratives[narrative_titles.index(narrative_to_analyse)])
+        if to_clean:
+            result_tok = remove_tokens_to_match(input_dict, narratives[narrative_titles.index(narrative_to_analyse)])
+        else:
+            result_tok = input_dict
         print("\nDifferences in normal paragraph division with original text:\n\n")
         print(print_differences(result_tok, narratives[narrative_titles.index(narrative_to_analyse)]),
               "\n")
@@ -293,20 +305,11 @@ if __name__ == '__main__':
     # Set suffixes
     suffix = input("Enter suffix of the JSON files to upload: ")
     suffix_csv = input("Enter suffix of the CSV file to save: ")
-    narra = input("Do you want also a complete narratives dataframe? (y/n): ")
     narratives_dict_output_filename = "narratives_dict_output-" + suffix + ".json"
     times_dict_filename = "times_dict-" + suffix + ".json"
     metadata_filename = "metadata-" + suffix + ".json"
     final_dict_filename = "final_dict-" + suffix + ".json"
     best_prompt_filename = "best_prompt-" + suffix + ".json"
-
-    # Transform input 'narra' from string to boolean
-    while narra.lower() != 'y' and narra.lower() != 'n':
-        narra = input("Please insert a correct value (y/n): ")
-    if narra.lower() == 'y':
-        narra = True
-    elif narra.lower() == 'n':
-        narra = False
 
     # Loading files
     narratives_dict = load_dict_from_file(narratives_dict_output_filename)
@@ -326,6 +329,36 @@ if __name__ == '__main__':
     narratives = metadata["narratives"]
     narrative_titles = metadata["narrative_titles"]
 
+    # Secondary inputs
+
+    narra = input("Do you want also a complete dataframe with all the narratives? (y/n): ")
+    clean = input("Do you want to clean the outputs too? (y/n): ")
+    best_outputs = input("Do you want to calculate only the best outputs? (y/n): ")
+
+    # Transform input 'narra' from string to boolean
+    while narra.lower() != 'y' and narra.lower() != 'n':
+        narra = input("Please insert a correct value (y/n): ")
+    if narra.lower() == 'y':
+        narra = True
+    elif narra.lower() == 'n':
+        narra = False
+
+    # Transform input 'clean' from string to boolean
+    while clean.lower() != 'y' and clean.lower() != 'n':
+        clean = input("Please insert a correct value (y/n): ")
+    if clean.lower() == 'y':
+        clean = True
+    elif clean.lower() == 'n':
+        clean = False
+
+    # Transform input 'best_outputs' from string to boolean
+    while best_outputs.lower() != 'y' and best_outputs.lower() != 'n':
+        best_outputs = input("Please insert a correct value (y/n): ")
+    if best_outputs.lower() == 'y':
+        best_outputs = True
+    elif best_outputs.lower() == 'n':
+        best_outputs = False
+
     # Times
     mean_times = []
     std_means = []
@@ -339,7 +372,8 @@ if __name__ == '__main__':
         std_values = []
         for model in times_dict[key]:
             for time in times_dict[key][model]:
-                print(times_dict[key][model][time])
+                seconds = (times_dict[key][model][time] * 60) % 60
+                print(int(times_dict[key][model][time]), "minutes and", int(seconds), "seconds")
                 sum_times += times_dict[key][model][time]
                 count += 1
                 std_values.append(times_dict[key][model][time])
@@ -355,14 +389,16 @@ if __name__ == '__main__':
     print("Avg and std dev for each model:\n")
     for x in range(len(mean_times)):
         mean_s = (mean_times[x] * 60) % 60
+        sum_all_s = (sum_all * 60) % 60
         if std_means != 0:
             dev_s = (std_means[x] * 60) % 60
-            print("Mean: ", int(mean_times[x]), "minutes and ", int(mean_s), "seconds, with dev std: ",
-                  int(std_means[x]), "minutes and ", int(dev_s), "seconds. Sum of total times:", round(sum_all, 2))
+            print("Mean:", int(mean_times[x]), "minutes and", int(mean_s), "seconds, with dev std:",
+                  int(std_means[x]), "minutes and", int(dev_s), "seconds.\nTotal execution time:", int(sum_all),
+                  "minutes and", int(sum_all_s), "seconds.")
         else:
             dev_s = 0
-            print("Mean: ", int(mean_times[x]), "minutes and ", int(mean_s), "seconds. Sum of total times:",
-                  round(sum_all, 2))
+            print("Mean:", int(mean_times[x]), "minutes and", int(mean_s), "seconds.\nTotal execution time:",
+                  int(sum_all), "minutes and", int(sum_all_s), "seconds.")
 
     # Variables for dataframe construction
     jac_list = []
@@ -432,7 +468,7 @@ if __name__ == '__main__':
                 narrative_to_analyse = input(
                     "Inserted narrative not present in the list.\nInsert a narrative to analyse: ")
                 if narrative_to_analyse == 'exit':
-                    build_df(narra)
+                    build_df(narra, best_outputs)
                     program_break = True
                     break
             if program_break:
@@ -453,9 +489,9 @@ if __name__ == '__main__':
                 tokens = 0
                 for prompt in narratives_dict[model_to_analyse][narrative_to_analyse]:
                     dict_to_analyse = narratives_dict[model_to_analyse][narrative_to_analyse]
-                    analysis(dict_to_analyse[prompt])
+                    analysis(dict_to_analyse[prompt], clean)
                     dict_to_analyse = final_dict[model_to_analyse][narrative_to_analyse]
-                    j, p, s, c, t = analysis_best(dict_to_analyse)
+                    j, p, s, c, t = analysis_best(dict_to_analyse, clean)
                     if j > max_jac:
                         jaccard = j
                         max_jac = j
@@ -471,14 +507,14 @@ if __name__ == '__main__':
                 best_jac_list.append(jaccard)
                 best_par_list.append(n_par)
                 print("The best prompt is: ", best_prompt[model_to_analyse][narrative_to_analyse])
-            build_df(narra)
+            build_df(narra, best_outputs)
 
         else:
             for prompt in narratives_dict[model_to_analyse][narrative_to_analyse]:
                 dict_to_analyse = narratives_dict[model_to_analyse][narrative_to_analyse]
-                analysis(dict_to_analyse)
+                analysis(dict_to_analyse, clean)
                 dict_to_analyse = final_dict[model_to_analyse][narrative_to_analyse]
-                analysis_best(dict_to_analyse)
+                analysis_best(dict_to_analyse, clean)
             print("The best prompt is: ", best_prompt[model_to_analyse][narrative_to_analyse])
 
         if break_while and break_while2:
